@@ -1,3 +1,51 @@
+# Audit-nextjs
+Audit websites using Google Lighthouse, store and display the data
+
+## TODO
+Display table with website metrics
+- Show baseline
+- Current
+- Competitor
+
+### Display data:
+- On load query database
+- Post most recent baseline
+- Post most recent current
+- Post competitors by newest
+
+### Audit:
+- To audit, must be logged in
+- Save jwt locally for auth
+- Change token every hour
+- Check auth every audit action
+- Use url to run lighthouse audit
+- Parse json data
+- store in DB
+- Run display / query function
+
+```
+model Audit {
+    id String @id @default(cuid())
+    url String
+    type String
+    performance Number
+    accessibility Number
+    bestpractices Number
+    seo Number
+    fcp Number
+    si Number
+    lcp Number
+    tti Number
+    tbt Number
+    cls Number
+    date Number
+}
+
+model Password {
+    password String // ? I've never done this before haha
+}
+```
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
