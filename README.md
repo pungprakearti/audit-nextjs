@@ -7,13 +7,13 @@ Display table with website metrics
 - Current
 - Competitor
 
-### Display data:
+## Display data:
 - On load query database
 - Post most recent baseline
 - Post most recent current
 - Post competitors by newest
 
-### Audit:
+## Audit:
 - To audit, must be logged in
 - Save jwt locally for auth
 - Change token every hour
@@ -46,7 +46,16 @@ model Password {
 }
 ```
 
+## Notes
+Use Prisma for ORM
+https://www.youtube.com/watch?v=FMnlyi60avU
+
+Google Lighthouse for audits
+https://github.com/GoogleChrome/lighthouse/blob/master/docs/readme.md#using-programmatically
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+<hr />
 
 ## Getting Started
 
