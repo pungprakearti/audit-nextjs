@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import FunctionalComponent from '../components/FunctionalComponent'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
         </div>
         <div>
           Audit here
+          <FunctionalComponent />
         </div>
       </main>
     </>
