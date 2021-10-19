@@ -1,17 +1,21 @@
-// const fs = require('fs');
 const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 
 export default function handler(req, res) {
-  (async () => {
+  const audit = async () => {
     const chrome = await chromeLauncher.launch({
       chromeFlags: ['--headless']
-    });
+    })
 
     const flags = {
       port: chrome.port,
       output: 'json',
-      onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+      onlyCategories: [
+        'performance',
+        'accessibility',
+        'best-practices',
+        'seo'
+      ],
       logLevel: 'info'
     }
 
@@ -30,8 +34,14 @@ export default function handler(req, res) {
       }
     }
 
-    const runnerResult = await lighthouse('https://www.rhumbix.com', flags, config);
-    const runnerResultMobile = await lighthouse('https://www.rhumbix.com', flags);
+    let runnerResult
+    let runnerResultMobile
+    try {
+      runnerResult = await lighthouse('www.google.com', flags, config);
+      runnerResultMobile = await lighthouse('www.google.com', flags);
+    } catch(err) {
+      return res.status(500).json({ error: err?.code })
+    }
   
     console.log('\n\n\nthis is runnerResult: ', runnerResult?.lhr?.audits, '\n\n\n');
   
@@ -41,6 +51,12 @@ export default function handler(req, res) {
   
     await chrome.kill();
 
-    res.status(200).json({ audits: runnerResult.lhr })
-  })()
+    return res.status(200).json({ audits: runnerResult.lhr })
+  }
+
+  if(req.method === 'POST') {
+    audit()
+  } else {
+    res.status(405).json({ error: 'Method not allowed' })
+  }
 }
