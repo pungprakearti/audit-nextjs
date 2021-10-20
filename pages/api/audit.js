@@ -2,7 +2,7 @@ const lighthouse = require('lighthouse');
 const chromeLauncher = require('chrome-launcher');
 
 export default function handler(req, res) {
-  const audit = async () => {
+  const audit = async (url, type) => {
     const chrome = await chromeLauncher.launch({
       chromeFlags: ['--headless']
     })
@@ -12,11 +12,11 @@ export default function handler(req, res) {
       output: 'json',
       onlyCategories: [
         'performance',
-        // 'accessibility',
-        // 'best-practices',
-        // 'seo'
+        'accessibility',
+        'best-practices',
+        'seo',
       ],
-      logLevel: 'info'
+      logLevel: 'info',
     }
 
     // Desktop configurations. Default is mobile
@@ -29,7 +29,7 @@ export default function handler(req, res) {
           width: 1350,
           height: 940,
           deviceScaleFactor: 1,
-          disabled: false
+          disabled: false,
         }
       }
     }
@@ -37,8 +37,8 @@ export default function handler(req, res) {
     let runnerResult
     let runnerResultMobile
     try {
-      runnerResult = await lighthouse('https://www.google.com', flags, config);
-      runnerResultMobile = await lighthouse('https://www.google.com', flags);
+      runnerResult = await lighthouse(url, flags, config);
+      runnerResultMobile = await lighthouse(url, flags);
     } catch(err) {
       if(err.code === 'INVALID_URL') {
         return res.status(500).json({ error: `${err?.code} - example: https://www.google.com` })
@@ -47,31 +47,10 @@ export default function handler(req, res) {
       }
 
     }
-  
-    console.log('\n\n\nthis is runnerResult: ', runnerResult?.lhr?.audits, '\n\n\n');
-  
-    // `.lhr` is the Lighthouse Result as a JS object
-    console.log('Report is done for', runnerResult?.lhr?.finalUrl);
-    console.log('Performance score was', runnerResult?.lhr?.categories?.performance?.score * 100);
-  
+
     await chrome.kill();
 
     // Parse data
-    /*
-    url, <--- get from body
-    type, <---
-    performance,
-    accessibility,
-    bestpractices,
-    seo,
-    fcp,
-    si,
-    lcp,
-    tti,
-    tbt,
-    cls,
-    date,
-    */
     const date = Date.now()
     const accessibility = runnerResult?.lhr?.categories?.accessibility?.score * 100
     const bestpractices = runnerResult?.lhr?.categories['best-practices']?.score * 100
@@ -117,13 +96,22 @@ export default function handler(req, res) {
       si_mobile,
       tbt_mobile,
       tti_mobile,
+      type,
+      url,
     }
 
-    return res.status(200).json({ audits: audits })
+    return res.status(200).json({ ...audits })
+    // We also need to store the DB values here
   }
 
   if(req.method === 'POST') {
-    audit()
+    const body = JSON.parse(req?.body)
+    const {
+      url,
+      type
+    } = body
+
+    audit(url, type)
   } else {
     res.status(405).json({ error: 'Method not allowed' })
   }
