@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import FunctionalComponent from '../components/FunctionalComponent'
+import AuditForm from '../components/AuditForm'
 
 const Home = () => {
   return (
@@ -15,7 +15,7 @@ const Home = () => {
         </div>
         <div>
           Audit here
-          <FunctionalComponent />
+          <AuditForm />
         </div>
       </main>
     </>
