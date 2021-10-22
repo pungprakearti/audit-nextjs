@@ -7,6 +7,8 @@ export default function handler(req, res) {
       chromeFlags: ['--headless']
     })
 
+    console.log('1')
+
     const flags = {
       port: chrome.port,
       output: 'json',
@@ -37,18 +39,20 @@ export default function handler(req, res) {
     let runnerResult
     let runnerResultMobile
     try {
+      console.log('2')
       runnerResult = await lighthouse(url, flags, config);
       runnerResultMobile = await lighthouse(url, flags);
     } catch(err) {
       if(err.code === 'INVALID_URL') {
         return res.status(500).json({ error: `${err?.code} - example: https://www.google.com` })
-      } else {
-        return res.status(500).json({ error: err?.code })
       }
 
+      return res.status(500).json({ error: err?.code })
     }
 
     await chrome.kill();
+
+    console.log('3')
 
     // Parse data
     const date = Date.now()
