@@ -1,13 +1,14 @@
-const lighthouse = require('lighthouse');
-const chromeLauncher = require('chrome-launcher');
+const lighthouse = require('lighthouse')
+const chromeLauncher = require('chrome-launcher')
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export default function handler(req, res) {
   const audit = async (url, type) => {
     const chrome = await chromeLauncher.launch({
       chromeFlags: ['--headless']
     })
-
-    console.log('1')
 
     const flags = {
       port: chrome.port,
@@ -39,7 +40,6 @@ export default function handler(req, res) {
     let runnerResult
     let runnerResultMobile
     try {
-      console.log('2')
       runnerResult = await lighthouse(url, flags, config);
       runnerResultMobile = await lighthouse(url, flags);
     } catch(err) {
@@ -47,36 +47,34 @@ export default function handler(req, res) {
         return res.status(500).json({ error: `${err?.code} - example: https://www.google.com` })
       }
 
-      return res.status(500).json({ error: err?.code })
+      return res.status(500).json(err)
     }
 
     await chrome.kill();
 
-    console.log('3')
-
     // Parse data
     const date = Date.now()
-    const accessibility = runnerResult?.lhr?.categories?.accessibility?.score * 100
-    const bestpractices = runnerResult?.lhr?.categories['best-practices']?.score * 100
-    const cls = runnerResult?.lhr?.audits['cumulative-layout-shift']?.score * 100
-    const fcp = runnerResult?.lhr?.audits['first-contentful-paint']?.score * 100
-    const lcp = runnerResult?.lhr?.audits['largest-contentful-paint']?.score * 100
-    const performance = runnerResult?.lhr?.categories?.performance?.score * 100
-    const seo = runnerResult?.lhr?.categories?.seo?.score * 100
-    const si = runnerResult?.lhr?.audits['speed-index']?.score * 100
-    const tbt = runnerResult?.lhr?.audits['total-blocking-time']?.score * 100
-    const tti = runnerResult?.lhr?.audits?.interactive?.score * 100
+    const accessibility = parseInt(runnerResult?.lhr?.categories?.accessibility?.score * 100)
+    const bestpractices = parseInt(runnerResult?.lhr?.categories['best-practices']?.score * 100)
+    const cls = parseInt(runnerResult?.lhr?.audits['cumulative-layout-shift']?.score * 100)
+    const fcp = parseInt(runnerResult?.lhr?.audits['first-contentful-paint']?.score * 100)
+    const lcp = parseInt(runnerResult?.lhr?.audits['largest-contentful-paint']?.score * 100)
+    const performance = parseInt(runnerResult?.lhr?.categories?.performance?.score * 100)
+    const seo = parseInt(runnerResult?.lhr?.categories?.seo?.score * 100)
+    const si = parseInt(runnerResult?.lhr?.audits['speed-index']?.score * 100)
+    const tbt = parseInt(runnerResult?.lhr?.audits['total-blocking-time']?.score * 100)
+    const tti = parseInt(runnerResult?.lhr?.audits?.interactive?.score * 100)
 
-    const accessibility_mobile = runnerResultMobile?.lhr?.categories?.accessibility?.score * 100
-    const bestpractices_mobile = runnerResultMobile?.lhr?.categories['best-practices']?.score * 100
-    const cls_mobile = runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score * 100
-    const fcp_mobile = runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score * 100
-    const lcp_mobile = runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score * 100
-    const performance_mobile = runnerResultMobile?.lhr?.categories?.performance?.score * 100
-    const seo_mobile = runnerResultMobile?.lhr?.categories?.seo?.score * 100
-    const si_mobile = runnerResultMobile?.lhr?.audits['speed-index']?.score * 100
-    const tbt_mobile = runnerResultMobile?.lhr?.audits['total-blocking-time']?.score * 100
-    const tti_mobile = runnerResultMobile?.lhr?.audits?.interactive?.score * 100
+    const accessibility_mobile = parseInt(runnerResultMobile?.lhr?.categories?.accessibility?.score * 100)
+    const bestpractices_mobile = parseInt(runnerResultMobile?.lhr?.categories['best-practices']?.score * 100)
+    const cls_mobile = parseInt(runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score * 100)
+    const fcp_mobile = parseInt(runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score * 100)
+    const lcp_mobile = parseInt(runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score * 100)
+    const performance_mobile = parseInt(runnerResultMobile?.lhr?.categories?.performance?.score * 100)
+    const seo_mobile = parseInt(runnerResultMobile?.lhr?.categories?.seo?.score * 100)
+    const si_mobile = parseInt(runnerResultMobile?.lhr?.audits['speed-index']?.score * 100)
+    const tbt_mobile = parseInt(runnerResultMobile?.lhr?.audits['total-blocking-time']?.score * 100)
+    const tti_mobile = parseInt(runnerResultMobile?.lhr?.audits?.interactive?.score * 100)
 
     const audits = {
       date,
@@ -104,8 +102,16 @@ export default function handler(req, res) {
       url,
     }
 
-    return res.status(200).json({ ...audits })
-    // We also need to store the DB values here
+    // Save data in database
+    try {
+      const savedAudits = await prisma.audit.create({
+        data: audits
+      })
+    } catch (err) {
+      return res.status(500).json({error: 'Unable to insert data to database'})
+    }
+
+    return res.status(200).json(savedAudits)
   }
 
   if(req.method === 'POST') {
@@ -117,6 +123,6 @@ export default function handler(req, res) {
 
     audit(url, type)
   } else {
-    res.status(405).json({ error: 'Method not allowed' })
+    return res.status(405).json({ error: 'Method not allowed' })
   }
 }
