@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Audit {
+  id String @id @default(cuid())
+  date Int
+  accessibility Int
+  bestpractices Int
+  cls Int
+  fcp Int
+  lcp Int
+  performance Int
+  seo Int
+  si Int
+  tbt Int
+  tti Int
+  accessibility_mobile Int
+  bestpractices_mobile Int
+  cls_mobile Int
+  fcp_mobile Int
+  lcp_mobile Int
+  performance_mobile Int
+  seo_mobile Int
+  si_mobile Int
+  tbt_mobile Int
+  tti_mobile Int
+  type String
+  url String
+}

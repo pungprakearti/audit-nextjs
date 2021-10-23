@@ -41,7 +41,7 @@ const AuditForm = (): JSX.Element => {
         setLoading(true)
         res = await fetch('/api/audit', params)
       } catch(err) {
-        console.log(err)
+        console.error(err)
       }
     }
 
@@ -57,7 +57,6 @@ const AuditForm = (): JSX.Element => {
       setUrl('')
       setType('')
       setError('')
-      console.log(resJson) // for debugging
     }
   }
 
