@@ -102,9 +102,10 @@ export default function handler(req, res) {
       url,
     }
 
+    let savedAudits
     // Save data in database
     try {
-      const savedAudits = await prisma.audit.create({
+      savedAudits = await prisma.audit.create({
         data: audits
       })
     } catch (err) {

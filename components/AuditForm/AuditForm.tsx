@@ -67,8 +67,8 @@ const AuditForm = (): JSX.Element => {
         <label>URL: </label>
         <input type='text' name='url' onChange={handleChange} value={url} />
         <label>Type: </label>
-        <select name='type' id='type-select' onChange={handleSelect}>
-          <option value='' selected={type === ''}>Please choose a website type</option>
+        <select name='type' id='type-select' defaultValue={''} onChange={handleSelect}>
+          <option value=''>Please choose a website type</option>
           <option value='baseline'>Baseline</option>
           <option value='current'>Current</option>
           <option value='competitor'>Competitor</option>
