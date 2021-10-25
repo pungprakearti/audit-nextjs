@@ -29,7 +29,8 @@ const AuditForm = (): JSX.Element => {
     const params: RequestInit = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application-json'
+        'Content-Type': 'application-json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(data)
     }
