@@ -123,7 +123,13 @@ export default function handler(req, res) {
       type
     } = body
 
-    audit(url, type)
+    // Route is only accessible locally
+    if(process.env.NEXT_PUBLIC_DEV === '1') {
+      audit(url, type)
+    } else {
+      return res.status(401).json({ error: 'Unauthorized'})
+    }
+
   } else {
     return res.status(405).json({ error: 'Method not allowed' })
   }
