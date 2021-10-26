@@ -15,24 +15,24 @@ model Audit {
   date Int
   accessibility Int
   bestpractices Int
-  cls Int
-  fcp Int
-  lcp Int
+  cls Float
+  fcp Float
+  lcp Float
   performance Int
   seo Int
-  si Int
-  tbt Int
-  tti Int
+  si Float
+  tbt Float
+  tti Float
   accessibility_mobile Int
   bestpractices_mobile Int
-  cls_mobile Int
-  fcp_mobile Int
-  lcp_mobile Int
+  cls_mobile Float
+  fcp_mobile Float
+  lcp_mobile Float
   performance_mobile Int
   seo_mobile Int
-  si_mobile Int
-  tbt_mobile Int
-  tti_mobile Int
+  si_mobile Float
+  tbt_mobile Float
+  tti_mobile Float
   type String
   url String
 }
