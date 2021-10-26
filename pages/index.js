@@ -29,9 +29,11 @@ const Home = (audits) => {
         <div>
           <Audits audits={audits.audits} />
         </div>
-        <div>
-          <AuditForm />
-        </div>
+        { process.env.NEXT_PUBLIC_DEV === '1' && (
+          <div>
+            <AuditForm />
+          </div>
+        )}
       </main>
     </>
   )

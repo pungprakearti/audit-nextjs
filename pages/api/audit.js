@@ -56,25 +56,25 @@ export default function handler(req, res) {
     const date = Date.now()
     const accessibility = parseInt(runnerResult?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices = parseInt(runnerResult?.lhr?.categories['best-practices']?.score * 100)
-    const cls = runnerResult?.lhr?.audits['cumulative-layout-shift']?.score
-    const fcp = runnerResult?.lhr?.audits['first-contentful-paint']?.score
-    const lcp = runnerResult?.lhr?.audits['largest-contentful-paint']?.score
+    const cls = runnerResult?.lhr?.audits['cumulative-layout-shift']?.score * 10
+    const fcp = runnerResult?.lhr?.audits['first-contentful-paint']?.score * 10
+    const lcp = runnerResult?.lhr?.audits['largest-contentful-paint']?.score * 10
     const performance = parseInt(runnerResult?.lhr?.categories?.performance?.score * 100)
     const seo = parseInt(runnerResult?.lhr?.categories?.seo?.score * 100)
-    const si = runnerResult?.lhr?.audits['speed-index']?.score
-    const tbt = runnerResult?.lhr?.audits['total-blocking-time']?.score
-    const tti = runnerResult?.lhr?.audits?.interactive?.score
+    const si = runnerResult?.lhr?.audits['speed-index']?.score * 10
+    const tbt = runnerResult?.lhr?.audits['total-blocking-time']?.score * 10
+    const tti = runnerResult?.lhr?.audits?.interactive?.score * 10
 
     const accessibility_mobile = parseInt(runnerResultMobile?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices_mobile = parseInt(runnerResultMobile?.lhr?.categories['best-practices']?.score * 100)
-    const cls_mobile = runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score
-    const fcp_mobile = runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score
-    const lcp_mobile = runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score
+    const cls_mobile = runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score * 10
+    const fcp_mobile = runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score * 10
+    const lcp_mobile = runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score * 10
     const performance_mobile = parseInt(runnerResultMobile?.lhr?.categories?.performance?.score * 100)
     const seo_mobile = parseInt(runnerResultMobile?.lhr?.categories?.seo?.score * 100)
-    const si_mobile = runnerResultMobile?.lhr?.audits['speed-index']?.score
-    const tbt_mobile = runnerResultMobile?.lhr?.audits['total-blocking-time']?.score
-    const tti_mobile = runnerResultMobile?.lhr?.audits?.interactive?.score
+    const si_mobile = runnerResultMobile?.lhr?.audits['speed-index']?.score * 10
+    const tbt_mobile = runnerResultMobile?.lhr?.audits['total-blocking-time']?.score * 10
+    const tti_mobile = runnerResultMobile?.lhr?.audits?.interactive?.score * 10
 
     const audits = {
       date,
@@ -109,7 +109,7 @@ export default function handler(req, res) {
         data: audits
       })
     } catch (err) {
-      console.log('this is err: ', err)
+      console.log('Error: ', err)
       return res.status(500).json({error: 'Unable to insert data to database'})
     }
 
@@ -123,7 +123,13 @@ export default function handler(req, res) {
       type
     } = body
 
-    audit(url, type)
+    // Route is only accessible locally
+    if(process.env.NEXT_PUBLIC_DEV === '1') {
+      audit(url, type)
+    } else {
+      return res.status(401).json({ error: 'Unauthorized'})
+    }
+
   } else {
     return res.status(405).json({ error: 'Method not allowed' })
   }
