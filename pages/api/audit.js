@@ -56,25 +56,25 @@ export default function handler(req, res) {
     const date = Date.now()
     const accessibility = parseInt(runnerResult?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices = parseInt(runnerResult?.lhr?.categories['best-practices']?.score * 100)
-    const cls = parseInt(runnerResult?.lhr?.audits['cumulative-layout-shift']?.score * 100)
-    const fcp = parseInt(runnerResult?.lhr?.audits['first-contentful-paint']?.score * 100)
-    const lcp = parseInt(runnerResult?.lhr?.audits['largest-contentful-paint']?.score * 100)
+    const cls = runnerResult?.lhr?.audits['cumulative-layout-shift']?.score
+    const fcp = runnerResult?.lhr?.audits['first-contentful-paint']?.score
+    const lcp = runnerResult?.lhr?.audits['largest-contentful-paint']?.score
     const performance = parseInt(runnerResult?.lhr?.categories?.performance?.score * 100)
     const seo = parseInt(runnerResult?.lhr?.categories?.seo?.score * 100)
-    const si = parseInt(runnerResult?.lhr?.audits['speed-index']?.score * 100)
-    const tbt = parseInt(runnerResult?.lhr?.audits['total-blocking-time']?.score * 100)
-    const tti = parseInt(runnerResult?.lhr?.audits?.interactive?.score * 100)
+    const si = runnerResult?.lhr?.audits['speed-index']?.score
+    const tbt = runnerResult?.lhr?.audits['total-blocking-time']?.score
+    const tti = runnerResult?.lhr?.audits?.interactive?.score
 
     const accessibility_mobile = parseInt(runnerResultMobile?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices_mobile = parseInt(runnerResultMobile?.lhr?.categories['best-practices']?.score * 100)
-    const cls_mobile = parseInt(runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score * 100)
-    const fcp_mobile = parseInt(runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score * 100)
-    const lcp_mobile = parseInt(runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score * 100)
+    const cls_mobile = runnerResultMobile?.lhr?.audits['cumulative-layout-shift']?.score
+    const fcp_mobile = runnerResultMobile?.lhr?.audits['first-contentful-paint']?.score
+    const lcp_mobile = runnerResultMobile?.lhr?.audits['largest-contentful-paint']?.score
     const performance_mobile = parseInt(runnerResultMobile?.lhr?.categories?.performance?.score * 100)
     const seo_mobile = parseInt(runnerResultMobile?.lhr?.categories?.seo?.score * 100)
-    const si_mobile = parseInt(runnerResultMobile?.lhr?.audits['speed-index']?.score * 100)
-    const tbt_mobile = parseInt(runnerResultMobile?.lhr?.audits['total-blocking-time']?.score * 100)
-    const tti_mobile = parseInt(runnerResultMobile?.lhr?.audits?.interactive?.score * 100)
+    const si_mobile = runnerResultMobile?.lhr?.audits['speed-index']?.score
+    const tbt_mobile = runnerResultMobile?.lhr?.audits['total-blocking-time']?.score
+    const tti_mobile = runnerResultMobile?.lhr?.audits?.interactive?.score
 
     const audits = {
       date,
@@ -109,6 +109,7 @@ export default function handler(req, res) {
         data: audits
       })
     } catch (err) {
+      console.log('this is err: ', err)
       return res.status(500).json({error: 'Unable to insert data to database'})
     }
 
