@@ -16,7 +16,6 @@ export async function getServerSideProps() {
 }
 
 const Home = (audits) => {
-  console.log(audits)
   return (
     <>
       <Head>
@@ -26,14 +25,15 @@ const Home = (audits) => {
       </Head>
 
       <main>
-        <div>
-          <Audits audits={audits.audits} />
-        </div>
+        <h1>Website Auditor</h1>
         { process.env.NEXT_PUBLIC_DEV === '1' && (
           <div>
             <AuditForm />
           </div>
         )}
+        <div>
+          <Audits audits={audits.audits} />
+        </div>
       </main>
     </>
   )

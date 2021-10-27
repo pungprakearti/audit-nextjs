@@ -1,3 +1,46 @@
 .wrap {
-    border: 1px solid;
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.headerCell,
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  min-height: 40px;
+  border: 1px solid rgba(gray, 0.5);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.headerCell {
+  background-color: #D9A404;
+}
+
+.cell {
+  min-height: 15px;
+}
+
+.sectionTitle {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 20px;
+  color: #a56d06;
+}
+
+.url {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #5f481c;
 }
