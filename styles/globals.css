@@ -4,6 +4,8 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  text-align: center;
+  background-color: #BFC5D9;
 }
 
 a {
@@ -13,4 +15,9 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+/* For links */
+h3 {
+  display: inline-block;
 }

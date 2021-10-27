@@ -46,7 +46,6 @@ const AuditForm = (): JSX.Element => {
       }
     }
 
-    setLoading(false)
     const resJson = await res.json()
 
     // Catch errors from audit
@@ -58,16 +57,19 @@ const AuditForm = (): JSX.Element => {
       setUrl('')
       setType('')
       setError('')
+      setLoading(false)
+      // Reload page to force server side render for new row data
+      window.location.href = ('/')
     }
   }
 
   return (
     <div className={styles.wrap}>
-      <form onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit}>
         <label>URL: </label>
-        <input type='text' name='url' onChange={handleChange} value={url} />
+        <input className={styles.input} type='text' name='url' onChange={handleChange} value={url} />
         <label>Type: </label>
-        <select name='type' id='type-select' value={type} onChange={handleSelect}>
+        <select className={styles.select} name='type' id='type-select' value={type} onChange={handleSelect}>
           <option value=''>Please choose a website type</option>
           <option value='baseline'>Baseline</option>
           <option value='current'>Current</option>
