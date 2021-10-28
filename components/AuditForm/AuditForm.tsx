@@ -57,10 +57,12 @@ const AuditForm = (): JSX.Element => {
       setUrl('')
       setType('')
       setError('')
-      setLoading(false)
+
       // Reload page to force server side render for new row data
       window.location.href = ('/')
     }
+
+    setLoading(false)
   }
 
   return (
@@ -83,7 +85,7 @@ const AuditForm = (): JSX.Element => {
         </div>
       )}
       {error && (
-        <div>
+        <div className={styles.error}>
           {`Error: ${error}`}
         </div>
       )}
