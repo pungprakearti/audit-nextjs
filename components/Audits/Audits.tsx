@@ -43,15 +43,19 @@ const Audits = (props: Props): JSX.Element => {
   const tableHeaders = [
     {
       title: 'Performance',
+      desc: 'Overall performance score out of 100',
     },
     {
       title: 'Accessibility',
+      desc: 'Overall accessibility score out of 100. The Lighthouse Accessibility score is a weighted average of all accessibility audits. Weighting is based on axe user impact assessments.',
     },
     {
       title: 'Best Practices',
+      desc: 'Overall best practices score out of 100. Lighthouse analyzes whether HTTPS and HTTP/2 are used, checks to see whether resources come from secure sources and assesses the vulnerability of JavaScript libraries. Other best practices look at secure database connections and avoiding the use of non-secure commands, such as document.',
     },
     {
       title: 'SEO',
+      desc: 'Overall performance score out of 100. Lighthouse runs various tests to establish how well a website or app can be crawled by search engines and displayed in the search results.',
     },
     {
       title: 'First Contentful Paint',
@@ -208,6 +212,9 @@ const Audits = (props: Props): JSX.Element => {
         {tableHeaders.map((header) => (
           <div className={styles.headerCell} key={uuid()}>
             {header.title}
+            <div className={styles.toolTip}>
+              {header.desc}
+            </div>
           </div>
         ))}
       </div>
