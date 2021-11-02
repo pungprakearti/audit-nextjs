@@ -1,3 +1,5 @@
+@import '/styles/main';
+
 .wrap {
   padding-bottom: 50px;
   text-align: center;
@@ -24,23 +26,62 @@
 }
 
 .headerCell {
-  background-color: #D9A404;
+  position: relative;
+  background-color: $gold;
+
+  &:focus,
+  &:hover {
+    & > .toolTip {
+      opacity: 1;
+      top: 45px;
+      transition: opacity $transitionDuration, top $transitionDuration;
+    }
+  }
 }
 
 .cell {
   min-height: 15px;
 }
 
+.toolTip {
+  position: absolute;
+  width: 200px;
+  top: 60px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: initial;
+  line-height: 1.5;
+  text-align: left;
+  background-color: $tissue;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 5px 10px rgba(black, 0.25);
+
+  &::before {
+    display: block;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: $tissue;
+    content: '';
+    top: -7px;
+    transform: rotate(45deg);
+    right: 93px;
+  }
+}
+
 .sectionTitle {
   margin-top: 10px;
   margin-bottom: 0;
   font-size: 20px;
-  color: #a56d06;
+  color: $pumpkin;
 }
 
 .url {
   margin-top: 10px;
   margin-bottom: 5px;
   font-size: 12px;
-  color: #5f481c;
+  color: $bronze;
 }
