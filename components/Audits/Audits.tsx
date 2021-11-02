@@ -210,14 +210,12 @@ const Audits = (props: Props): JSX.Element => {
     <div className={styles.wrap}>
       <div className={styles.row}>
         {tableHeaders.map((header) => (
-          <React.Fragment key={uuid()}>
-            <div className={styles.headerCell}>
-              {header.title}
-              <div className={styles.toolTip}>
-                {header.desc}
-              </div>
+          <div className={styles.headerCell} key={uuid()}>
+            {header.title}
+            <div className={styles.toolTip}>
+              {header.desc}
             </div>
-          </React.Fragment>
+          </div>
         ))}
       </div>
       <h2 className={styles.sectionTitle}>Current state</h2>
