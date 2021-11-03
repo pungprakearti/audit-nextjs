@@ -34,7 +34,7 @@
     & > .toolTip {
       opacity: 1;
       top: 45px;
-      transition: opacity $transitionDuration, top $transitionDuration;
+      transition: opacity $transitionIn, top $transitionIn;
     }
   }
 }
@@ -58,6 +58,7 @@
   opacity: 0;
   pointer-events: none;
   box-shadow: 0 5px 10px rgba(black, 0.25);
+  transition: opacity $transitionOut, top $transitionOut;
 
   &::before {
     display: block;
