@@ -57,24 +57,24 @@ export default function handler(req, res) {
     const tempAuditsMobile = runnerResultMobile?.lhr?.audits
 
     const date = Date.now()
-    const accessibility = runnerResult?.lhr?.categories?.accessibility?.score * 100
-    const bestpractices = runnerResult?.lhr?.categories['best-practices']?.score * 100
+    const accessibility = Math.round(runnerResult?.lhr?.categories?.accessibility?.score * 100)
+    const bestpractices = Math.round(runnerResult?.lhr?.categories['best-practices']?.score * 100)
     const cls = Math.round(tempAudits['cumulative-layout-shift']?.numericValue * 100) / 100
     const fcp = Math.round(tempAudits['first-contentful-paint']?.numericValue / 100) / 10
     const lcp = Math.round(tempAudits['largest-contentful-paint']?.numericValue / 100) / 10
-    const performance = runnerResult?.lhr?.categories?.performance?.score * 100
-    const seo = runnerResult?.lhr?.categories?.seo?.score * 100
+    const performance = Math.round(runnerResult?.lhr?.categories?.performance?.score * 100)
+    const seo = Math.round(runnerResult?.lhr?.categories?.seo?.score * 100)
     const si = Math.round(tempAudits['speed-index']?.numericValue / 100) / 10
     const tbt = Math.round(tempAudits['total-blocking-time']?.numericValue)
     const tti = Math.round(tempAudits?.interactive?.numericValue / 100) / 10
 
-    const accessibility_mobile = runnerResult?.lhr?.categories?.accessibility?.score * 100
-    const bestpractices_mobile = runnerResult?.lhr?.categories['best-practices']?.score * 100
+    const accessibility_mobile = Math.round(runnerResult?.lhr?.categories?.accessibility?.score * 100)
+    const bestpractices_mobile = Math.round(runnerResult?.lhr?.categories['best-practices']?.score * 100)
     const cls_mobile = Math.round(tempAuditsMobile['cumulative-layout-shift']?.numericValue * 100) / 100
     const fcp_mobile = Math.round(tempAuditsMobile['first-contentful-paint']?.numericValue / 100) / 10
     const lcp_mobile = Math.round(tempAuditsMobile['largest-contentful-paint']?.numericValue / 100) / 10
-    const performance_mobile = runnerResult?.lhr?.categories?.performance?.score * 100
-    const seo_mobile = runnerResult?.lhr?.categories?.seo?.score * 100
+    const performance_mobile = Math.round(runnerResult?.lhr?.categories?.performance?.score * 100)
+    const seo_mobile = Math.round(runnerResult?.lhr?.categories?.seo?.score * 100)
     const si_mobile = Math.round(tempAuditsMobile['speed-index']?.numericValue / 100) / 10
     const tbt_mobile = Math.round(tempAuditsMobile['total-blocking-time']?.numericValue)
     const tti_mobile = Math.round(tempAuditsMobile?.interactive?.numericValue / 100) / 10
@@ -111,6 +111,7 @@ export default function handler(req, res) {
       savedAudits = await prisma.audit.create({
         data: audits
       })
+      await prisma.$disconnect()
     } catch (err) {
       console.log('Error: ', err)
       return res.status(500).json({error: 'Unable to insert data to database'})
