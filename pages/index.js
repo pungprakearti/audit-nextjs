@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 // Get audits from database
 export async function getServerSideProps() {
   const auditData = await prisma.audit.findMany();
+  await prisma.$disconnect()
   return {
     props: {
       audits: auditData
