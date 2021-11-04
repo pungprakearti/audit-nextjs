@@ -1,0 +1,27 @@
+@import '/styles/main';
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  min-height: 15px;
+  border: 1px solid rgba(gray, 0.5);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.green {
+  background-color: $green;
+}
+
+.orange {
+  background-color: $orange;
+}
+
+.red {
+  background-color: $red;
+}

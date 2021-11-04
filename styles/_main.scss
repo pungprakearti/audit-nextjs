@@ -3,9 +3,11 @@ $pumpkin: #A56D06;
 $bronze: #5F481C;
 $fog: #BFC5D9;
 $tissue: #DCDFEB;
-$red: #E15D5D;
-$orange: #E5AE4A;
-$green: #2CCB2C;
+
+$o: 0.75;
+$red: rgba(#E15D5D, $o);
+$orange: rgba(#E5AE4A, $o);
+$green: rgba(#2CCB2C, $o);
 
 $transitionIn: 0.5s ease-in;
 $transitionOut: 0.1s ease-out;

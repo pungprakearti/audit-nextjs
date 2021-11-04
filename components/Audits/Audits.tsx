@@ -1,6 +1,7 @@
 import React from 'react'
-import styles from './Audits.module.scss'
+import AuditCell from '../AuditCell'
 import { v4 as uuid } from 'uuid'
+import styles from './Audits.module.scss'
 
 interface Audit {
   id: string,
@@ -47,39 +48,39 @@ const Audits = (props: Props): JSX.Element => {
     },
     {
       title: 'Accessibility',
-      desc: 'Overall accessibility score out of 100. The Lighthouse Accessibility score is a weighted average of all accessibility audits. Weighting is based on axe user impact assessments.',
+      desc: 'Overall accessibility score out of 100.',
     },
     {
       title: 'Best Practices',
-      desc: 'Overall best practices score out of 100. Lighthouse analyzes whether HTTPS and HTTP/2 are used, checks to see whether resources come from secure sources and assesses the vulnerability of JavaScript libraries. Other best practices look at secure database connections and avoiding the use of non-secure commands, such as document.',
+      desc: 'Overall best practices score out of 100.',
     },
     {
       title: 'SEO',
-      desc: 'Overall performance score out of 100. Lighthouse runs various tests to establish how well a website or app can be crawled by search engines and displayed in the search results.',
+      desc: 'Overall performance score out of 100.',
     },
     {
       title: 'First Contentful Paint',
-      desc: "First Contentful Paint measures how long it takes the browser to render the first piece of DOM content after a user navigates to your page"
+      desc: 'First Contentful Paint marks the time at which the first text or image is painted.'
     },
     {
       title: 'Speed Index',
-      desc: 'Speed Index measures how quickly content is visually displayed during page load'
+      desc: 'Speed Index shows how quickly the contents of a page are visibly populated.'
     },
     {
       title: 'Largest Contentful Paint',
-      desc: 'The Largest Contentful Paint metric reports the render time of the largest image or text block visible within the viewport, relative to when the page first started loading.'
+      desc: 'Largest Contentful Paint marks the time at which the largest text or image is painted.'
     },
     {
       title: 'Time to Interactive',
-      desc: 'Time to Interactive is the amount of time it takes for the page to become fully interactive'
+      desc: 'Time to interactive is the amount of time it takes for the page to become fully interactive.'
     },
     {
       title: 'Total Blocking Time',
-      desc: 'Total Blocking Time measures the total amount of time that a page is blocked from responding to user input, such as mouse clicks, screen taps, or keyboard presses'
+      desc: 'Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds.'
     },
     {
       title: 'Cumulative Layout Shift',
-      desc: 'Cumulative Layout Shift is a measure of the largest burst of layout shift scores for every unexpected layout shift that occurs during the entire lifespan of a page'
+      desc: 'Cumulative Layout Shift measures the movement of visible elements within the viewport.'
     }
   ]
 
@@ -148,17 +149,13 @@ const Audits = (props: Props): JSX.Element => {
 
     // Arrange data into rows for table
     if(type === 'current') {
-      auditOrder.forEach((currentAudit, i) => {
+      auditOrder.forEach((currentAudit, i: number) => {
         currentCells.push(
-          <div className={styles.cell} key={uuid()}>
-            {currentAudit.toString().substring(0,4)}
-          </div>
+          <AuditCell value={currentAudit} index={i} key={uuid()}/>
         )
 
         currentCellsMobile.push(
-          <div className={styles.cell} key={uuid()}>
-            {auditOrderMobile[i].toString().substring(0,4)}
-          </div>
+          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
         )
 
         currentUrl = url
@@ -166,33 +163,25 @@ const Audits = (props: Props): JSX.Element => {
     }
 
     if(type === 'baseline') {
-      auditOrder.forEach((currentAudit, i) => {
+      auditOrder.forEach((currentAudit, i: number) => {
         baselineCells.push(
-          <div className={styles.cell} key={uuid()}>
-            {currentAudit.toString().substring(0,4)}
-          </div>
+          <AuditCell value={currentAudit} index={i - 9} key={uuid()}/>
         )
 
         baselineCellsMobile.push(
-          <div className={styles.cell} key={uuid()}>
-            {auditOrderMobile[i].toString().substring(0,4)}
-          </div>
+          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
         )
       })
     }
 
     if(type === 'competitor') {
-      auditOrder.forEach((currentAudit, i) => {
+      auditOrder.forEach((currentAudit, i: number) => {
         competitorCells.push(
-          <div className={styles.cell} key={uuid()}>
-            {currentAudit.toString().substring(0,4)}
-          </div>
+          <AuditCell value={currentAudit} index={i - 9} key={uuid()}/>
         )
 
         competitorCellsMobile.push(
-          <div className={styles.cell} key={uuid()}>
-            {auditOrderMobile[i].toString().substring(0,4)}
-          </div>
+          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
         )
       })
       competitorGrouped.push([competitorCells, competitorCellsMobile])
@@ -235,7 +224,7 @@ const Audits = (props: Props): JSX.Element => {
         {baselineCellsMobile}
       </div>
       <h2 className={styles.sectionTitle}>Competitors</h2>
-      {competitorGrouped.map((competitorGroup, i) => (
+      {competitorGrouped.map((competitorGroup, i: number) => (
         <React.Fragment key={uuid()}>
           <a href={competitorUrls[i]}><h3 className={styles.url}>{competitorUrls[i]}</h3></a>
           <div className={styles.row}>

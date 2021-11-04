@@ -10,24 +10,20 @@
   justify-content: center;
 }
 
-.headerCell,
-.cell {
+.headerCell {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100px;
   min-height: 40px;
   border: 1px solid rgba(gray, 0.5);
+  background-color: $gold;
   font-weight: 800;
   text-transform: uppercase;
   font-size: 10px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.headerCell {
-  position: relative;
-  background-color: $gold;
 
   &:focus,
   &:hover {
@@ -37,10 +33,6 @@
       transition: opacity $transitionIn, top $transitionIn;
     }
   }
-}
-
-.cell {
-  min-height: 15px;
 }
 
 .toolTip {
