@@ -1,7 +1,15 @@
 import { useState, ChangeEvent, FormEvent } from 'react'
 import styles from './AuditForm.module.scss'
 
-const AuditForm = (): JSX.Element => {
+type Props = {
+  disableBl: boolean,
+}
+
+const AuditForm = (props: Props): JSX.Element => {
+  const {
+    disableBl
+  } = props
+
   const [url, setUrl] = useState('')
   const [type, setType] = useState('')
   const [loading, setLoading] = useState(false)
@@ -73,7 +81,10 @@ const AuditForm = (): JSX.Element => {
         <label>Type: </label>
         <select className={styles.select} name='type' id='type-select' value={type} onChange={handleSelect}>
           <option value=''>Please choose a website type</option>
-          <option value='baseline'>Baseline</option>
+          {/* Disable baseline option if baseline exists */}
+          { !disableBl && (
+            <option value='baseline'>Baseline</option>
+          )}
           <option value='current'>Current</option>
           <option value='competitor'>Competitor</option>
         </select>

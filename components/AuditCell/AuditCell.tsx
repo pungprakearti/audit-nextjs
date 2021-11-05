@@ -67,7 +67,7 @@ const AuditCell = (props: Props): JSX.Element => {
 
   return (
     <div className={cx(styles.cell, styles[color])}>
-      {value}
+      {value}{index >= 4 && index <= 7 && ' s'}{index === 8 && ' ms'}
     </div>
   )
 }
