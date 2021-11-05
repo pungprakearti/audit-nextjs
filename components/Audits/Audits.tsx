@@ -155,7 +155,7 @@ const Audits = (props: Props): JSX.Element => {
         )
 
         currentCellsMobile.push(
-          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
+          <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
 
         currentUrl = url
@@ -165,11 +165,11 @@ const Audits = (props: Props): JSX.Element => {
     if(type === 'baseline') {
       auditOrder.forEach((currentAudit, i: number) => {
         baselineCells.push(
-          <AuditCell value={currentAudit} index={i - 9} key={uuid()}/>
+          <AuditCell value={currentAudit} index={i} key={uuid()}/>
         )
 
         baselineCellsMobile.push(
-          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
+          <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
       })
     }
@@ -177,11 +177,11 @@ const Audits = (props: Props): JSX.Element => {
     if(type === 'competitor') {
       auditOrder.forEach((currentAudit, i: number) => {
         competitorCells.push(
-          <AuditCell value={currentAudit} index={i - 9} key={uuid()}/>
+          <AuditCell value={currentAudit} index={i} key={uuid()}/>
         )
 
         competitorCellsMobile.push(
-          <AuditCell value={auditOrderMobile[i]} index={i - 9} key={uuid()}/>
+          <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
       })
       competitorGrouped.push([competitorCells, competitorCellsMobile])
