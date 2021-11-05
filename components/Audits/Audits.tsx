@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AuditCell from '../AuditCell'
 import { v4 as uuid } from 'uuid'
 import styles from './Audits.module.scss'
@@ -37,6 +37,16 @@ type Props = {
 }
 
 const Audits = (props: Props): JSX.Element => {
+  const [sortedComps, setSortedComps] = useState([])
+
+  useEffect(() => {
+    if(sortedComps.length < 1) {
+      setSortedComps(sortColumn(0))
+    }
+  })
+
+
+
   const {
     audits
   } = props
@@ -93,7 +103,6 @@ const Audits = (props: Props): JSX.Element => {
   let competitorGrouped = []
   let competitorCells = []
   let competitorCellsMobile = []
-  let competitorUrls = []
 
   audits.forEach((audit) => {
     const {
@@ -184,22 +193,41 @@ const Audits = (props: Props): JSX.Element => {
           <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
       })
-      competitorGrouped.push([competitorCells, competitorCellsMobile])
-      competitorUrls.push(url)
+      competitorGrouped.push([competitorCells, competitorCellsMobile, url])
 
       // Reset arrays for next row
       competitorCells = []
       competitorCellsMobile = []
     }
-
-
   })
+
+  // Sort by column
+  const sortColumn = (col: number) => {
+    let tempArray = [...competitorGrouped]
+
+    if(col <= 3) {
+      tempArray.sort((a, b) => {
+        return b[0][col].props.value - a[0][col].props.value
+      })
+    } else {
+      tempArray.sort((a, b) => {
+        return a[0][col].props.value - b[0][col].props.value
+      })
+    }
+
+    return tempArray
+  }
+
+  // Sort based on header that is clicked
+  const handleSort = (col) => {
+    setSortedComps(sortColumn(col))
+  }
 
   return (
     <div className={styles.wrap}>
       <div className={styles.row}>
-        {tableHeaders.map((header) => (
-          <div className={styles.headerCell} key={uuid()}>
+        {tableHeaders.map((header, i: number) => (
+          <div className={styles.headerCell} key={uuid()} onClick={() => handleSort(i)}>
             {header.title}
             <div className={styles.toolTip}>
               {header.desc}
@@ -224,9 +252,9 @@ const Audits = (props: Props): JSX.Element => {
         {baselineCellsMobile}
       </div>
       <h2 className={styles.sectionTitle}>Competitors</h2>
-      {competitorGrouped.map((competitorGroup, i: number) => (
+      {sortedComps.map((competitorGroup, i: number) => (
         <React.Fragment key={uuid()}>
-          <a href={competitorUrls[i]}><h3 className={styles.url}>{competitorUrls[i]}</h3></a>
+          <a href={competitorGroup[2]}><h3 className={styles.url}>{competitorGroup[2]}</h3></a>
           <div className={styles.row}>
             {competitorGroup[0]}
           </div>
