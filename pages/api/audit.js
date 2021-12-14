@@ -56,7 +56,7 @@ export default function handler(req, res) {
     const tempAudits = runnerResult?.lhr?.audits
     const tempAuditsMobile = runnerResultMobile?.lhr?.audits
 
-    const date = Date.now()
+    // const date = Date.now()
     const accessibility = Math.round(runnerResult?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices = Math.round(runnerResult?.lhr?.categories['best-practices']?.score * 100)
     const cls = Math.round(tempAudits['cumulative-layout-shift']?.numericValue * 100) / 100
@@ -72,7 +72,8 @@ export default function handler(req, res) {
     const bestpractices_mobile = Math.round(runnerResult?.lhr?.categories['best-practices']?.score * 100)
     const cls_mobile = Math.round(tempAuditsMobile['cumulative-layout-shift']?.numericValue * 100) / 100
     const fcp_mobile = Math.round(tempAuditsMobile['first-contentful-paint']?.numericValue / 100) / 10
-    const lcp_mobile = Math.round(tempAuditsMobile['largest-contentful-paint']?.numericValue / 100) / 10
+    // Lighthouse sometimes errors on LCP for mobile. I have no idea why, but I changed the value from the error message to 999
+    const lcp_mobile = typeof tempAuditsMobile['largest-contentful-paint'] === 'number' && (Math.round(tempAuditsMobile['largest-contentful-paint']?.numericValue / 100) / 10) || 999
     const performance_mobile = Math.round(runnerResult?.lhr?.categories?.performance?.score * 100)
     const seo_mobile = Math.round(runnerResult?.lhr?.categories?.seo?.score * 100)
     const si_mobile = Math.round(tempAuditsMobile['speed-index']?.numericValue / 100) / 10
@@ -80,7 +81,6 @@ export default function handler(req, res) {
     const tti_mobile = Math.round(tempAuditsMobile?.interactive?.numericValue / 100) / 10
 
     const audits = {
-      date,
       accessibility,
       bestpractices,
       cls,

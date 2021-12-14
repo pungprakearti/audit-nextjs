@@ -24,10 +24,17 @@
   font-size: 10px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color $transitionOut, color $transitionOut;
 
   &:focus,
   &:hover {
+    cursor: pointer;
+    background-color: $bronze;
+    color: $gold;
+    transition: background-color 0.25s ease-in, color 0.25s ease-in;
+
     & > .toolTip {
+      color: black;
       opacity: 1;
       top: 45px;
       transition: opacity $transitionIn, top $transitionIn;

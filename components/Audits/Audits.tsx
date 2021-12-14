@@ -5,7 +5,6 @@ import styles from './Audits.module.scss'
 
 interface Audit {
   id: string,
-  date: number,
   accessibility: number,
   bestpractices: number,
   cls: number,
@@ -95,9 +94,10 @@ const Audits = (props: Props): JSX.Element => {
   ]
 
   // form table cells
-  let currentUrl = ''
+  let baselineUrl = ''
   let currentCells = []
   let currentCellsMobile = []
+  let currentGrouped = []
   let baselineCells = []
   let baselineCellsMobile = []
   let competitorGrouped = []
@@ -166,9 +166,12 @@ const Audits = (props: Props): JSX.Element => {
         currentCellsMobile.push(
           <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
-
-        currentUrl = url
       })
+      currentGrouped.push([currentCells, currentCellsMobile, url])
+
+      // Reset arrays for next row
+      currentCells = []
+      currentCellsMobile = []
     }
 
     if(type === 'baseline') {
@@ -180,6 +183,8 @@ const Audits = (props: Props): JSX.Element => {
         baselineCellsMobile.push(
           <AuditCell value={auditOrderMobile[i]} index={i} key={uuid()}/>
         )
+
+        baselineUrl = url
       })
     }
 
@@ -235,22 +240,29 @@ const Audits = (props: Props): JSX.Element => {
           </div>
         ))}
       </div>
+
       <h2 className={styles.sectionTitle}>Current state</h2>
-      <a href={currentUrl}><h3 className={styles.url}>{currentUrl}</h3></a>
-      <div className={styles.row}>
-        {currentCells}
-      </div>
-      <div className={styles.row}>
-        {currentCellsMobile}
-      </div>
+      {currentGrouped.map((currentGroup, i: number) => (
+        <React.Fragment key={uuid()}>
+          <a href={currentGroup[2]}><h3 className={styles.url}>{currentGroup[2]}</h3></a>
+          <div className={styles.row}>
+            {currentGroup[0]}
+          </div>
+          <div className={styles.row}>
+            {currentGroup[1]}
+          </div>
+        </React.Fragment>
+      ))}
+
       <h2 className={styles.sectionTitle}>Baseline</h2>
-      <a href={currentUrl}><h3 className={styles.url}>{currentUrl}</h3></a>
+      <a href={baselineUrl}><h3 className={styles.url}>{baselineUrl}</h3></a>
       <div className={styles.row}>
         {baselineCells}
       </div>
       <div className={styles.row}>
         {baselineCellsMobile}
       </div>
+
       <h2 className={styles.sectionTitle}>Competitors</h2>
       {sortedComps.map((competitorGroup, i: number) => (
         <React.Fragment key={uuid()}>

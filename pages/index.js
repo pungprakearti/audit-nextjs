@@ -18,7 +18,7 @@ export async function getServerSideProps() {
 }
 
 const Home = (audits) => {
-  const [bl, setBl] = useState('false')
+  const [bl, setBl] = useState(false)
 
   useEffect(() => {
     // Check for baseline entry and if so, pass bl to AuditForm

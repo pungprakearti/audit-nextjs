@@ -85,7 +85,7 @@ const AuditForm = (props: Props): JSX.Element => {
           { !disableBl && (
             <option value='baseline'>Baseline</option>
           )}
-          <option value='current'>Current</option>
+          <option value='current'>Current State</option>
           <option value='competitor'>Competitor</option>
         </select>
         <button disabled={loading || url === '' || type === ''}>Audit</button>

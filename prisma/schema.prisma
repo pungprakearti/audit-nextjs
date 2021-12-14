@@ -11,8 +11,7 @@ datasource db {
 }
 
 model Audit {
-  id String @id @default(cuid())
-  date Int
+  id Int @id @default(autoincrement())
   accessibility Int
   bestpractices Int
   cls Float

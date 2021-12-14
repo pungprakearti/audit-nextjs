@@ -65,9 +65,22 @@ const AuditCell = (props: Props): JSX.Element => {
   }
   chooseColor()
 
+  const getRenderValue = () => {
+    // Lighthouse has errors every once in a while. Those errors are saved as 999.
+    if(value === 999) return 'ERROR'
+
+    if(index < 4 || index > 8) return value
+
+    let unit
+    if(index >= 4 && index <= 7) unit = 's'
+    if(index === 8) unit = 'ms'
+
+    return `${value} ${unit}`
+  }
+
   return (
     <div className={cx(styles.cell, styles[color])}>
-      {value}{index >= 4 && index <= 7 && ' s'}{index === 8 && ' ms'}
+      {getRenderValue()}
     </div>
   )
 }
