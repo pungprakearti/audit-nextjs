@@ -56,7 +56,6 @@ export default function handler(req, res) {
     const tempAudits = runnerResult?.lhr?.audits
     const tempAuditsMobile = runnerResultMobile?.lhr?.audits
 
-    // const date = Date.now()
     const accessibility = Math.round(runnerResult?.lhr?.categories?.accessibility?.score * 100)
     const bestpractices = Math.round(runnerResult?.lhr?.categories['best-practices']?.score * 100)
     const cls = Math.round(tempAudits['cumulative-layout-shift']?.numericValue * 100) / 100

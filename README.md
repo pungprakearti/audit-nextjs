@@ -37,6 +37,19 @@ NEXT_PUBLIC_DEV=1
 
 - Allow deleting of audits on front end
 
+## Notes
+- Access PSQL through Heroku CLI using: `heroku pg:psql -a audit-nextjs`
+
+- Table is queried using `"Audit"` instead of `'Audit'` because of how Prisma is set up: `SELECT * FROM "Audit";`
+
+- Restart Heroku server using CLI: `heroku restart -a audit-nextjs`
+
+- Look at last 200 Heroku logs using CLI: `heroku logs -n 200 -a audit-nextjs`
+
+- On Heroku, required buildpacks in `Settings` are:
+1. `heroku/nodejs`
+1. `https://github.com/heroku/heroku-buildpack-google-chrome.git`
+
 <hr />
 
 <img src='audit_preview.png' />
