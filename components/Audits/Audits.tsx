@@ -241,7 +241,7 @@ const Audits = (props: Props): JSX.Element => {
 
       {/* On click reveal all current state entries for presentation purposes */}
       <h2 className={styles.sectionTitle} onClick={() => setShowAll(!showAll)}>
-        Current state
+        <div className={styles.sectionTitleInner}>Current state</div>
       </h2>
       {showAll ? (
         currentGrouped.map((currentGroup, i: number) => (
