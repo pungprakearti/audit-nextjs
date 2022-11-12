@@ -35,6 +35,7 @@ type Props = {
 
 const Audits = (props: Props): JSX.Element => {
   const [sortedComps, setSortedComps] = useState([])
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     if (sortedComps.length < 1) {
@@ -224,6 +225,7 @@ const Audits = (props: Props): JSX.Element => {
 
   return (
     <div className={styles.wrap}>
+      {/* TOP LEGEND */}
       <div className={styles.row}>
         {tableHeaders.map((header, i: number) => (
           <div
@@ -237,20 +239,36 @@ const Audits = (props: Props): JSX.Element => {
         ))}
       </div>
 
-      <h2 className={styles.sectionTitle}>Current state</h2>
-      <React.Fragment key={uuid()}>
-        <a href={currentGrouped[currentGrouped.length - 1][2]}>
-          <h3 className={styles.url}>
-            {currentGrouped[currentGrouped.length - 1][2]}
-          </h3>
-        </a>
-        <div className={styles.row}>
-          {currentGrouped[currentGrouped.length - 1][0]}
-        </div>
-        <div className={styles.row}>
-          {currentGrouped[currentGrouped.length - 1][1]}
-        </div>
-      </React.Fragment>
+      {/* On click reveal all current state entries for presentation purposes */}
+      <h2 className={styles.sectionTitle} onClick={() => setShowAll(!showAll)}>
+        <div className={styles.sectionTitleInner}>Current state</div>
+      </h2>
+      {showAll ? (
+        currentGrouped.map((currentGroup, i: number) => (
+          <React.Fragment key={uuid()}>
+            <a href={currentGroup[2]}>
+              <h3 className={styles.url}>{currentGroup[2]}</h3>
+            </a>
+            <div className={styles.row}>{currentGroup[0]}</div>
+            <div className={styles.row}>{currentGroup[1]}</div>
+          </React.Fragment>
+        ))
+      ) : (
+        // Only show most recent state
+        <>
+          <a href={currentGrouped[currentGrouped.length - 1][2]}>
+            <h3 className={styles.url}>
+              {currentGrouped[currentGrouped.length - 1][2]}
+            </h3>
+          </a>
+          <div className={styles.row}>
+            {currentGrouped[currentGrouped.length - 1][0]}
+          </div>
+          <div className={styles.row}>
+            {currentGrouped[currentGrouped.length - 1][1]}
+          </div>
+        </>
+      )}
 
       <h2 className={styles.sectionTitle}>Baseline</h2>
       <a href={baselineUrl}>

@@ -1,4 +1,4 @@
-@import '/styles/main';
+@import "/styles/main";
 
 .wrap {
   padding-bottom: 50px;
@@ -65,7 +65,7 @@
     width: 14px;
     height: 14px;
     background-color: $tissue;
-    content: '';
+    content: "";
     top: -7px;
     transform: rotate(45deg);
     right: 93px;
@@ -77,6 +77,15 @@
   margin-bottom: 0;
   font-size: 20px;
   color: $pumpkin;
+
+  &Inner {
+    display: inline-block;
+
+    &:focus,
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .url {
